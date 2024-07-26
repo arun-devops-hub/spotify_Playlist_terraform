@@ -1,0 +1,42 @@
+Terraform with Spotify:
+
+https://cloudchamp.notion.site/Creating-Multiple-Spotify-Playlists-Using-Terraform-3171668ad3074aa8acab147ad85e26f8
+https://developer.hashicorp.com/terraform/tutorials/community-providers/spotify-playlist
+
+As terraform supports multiple providers, it supports for Spotify too
+
+Now, we will see how TF manages spotify playlist for us.
+
+Step 1:
+
+create one account in developer.spotify.com and create one application.
+
+After that, generate spotify client id and secret id. using these keys tf authenticates with spotify.
+
+clinet_ID = c1e63b2a42374fcc9f0ca74444d4cd94
+Secret ID= a52e3e7be50742bfb1f31bfb2ceab149
+
+Pass this keys in tf provider config file, so that tf authes with spotify
+
+Step2:
+ 
+Now that you created the Spotify app, you are ready to configure and start the authorization proxy server, 
+which allows Terraform to interact with Spotify. (To publish playlist to spotify we need this key)
+
+To get auth token from spotify, we need to run one docker container 
+
+docker run --rm -it -p 27228:27228 ghcr.io/conradludgate/spotify-auth-proxy
+
+Make sure your container is up and running if you want to publish your playlist.
+
+variable "spotify_client_id" {
+  type = "string"
+  description = "clientid of spotify"
+  default = "c1e63b2a42374fcc9f0ca74444d4cd94"
+}
+
+variable "spotify_secret_id" {
+  type = "string"
+  description = "secretid of spotify"
+  default = "a52e3e7be50742bfb1f31bfb2ceab149"
+}
